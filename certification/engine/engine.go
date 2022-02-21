@@ -66,6 +66,13 @@ func queryChecks(checkName string) certification.Check {
 		return check
 	}
 
+	// if not found in Operator Policy, query container policy.
+	// No need to check scratch container policy since this is
+	// a superset.
+	if check, exists := redHatContainerPolicy[checkName]; exists {
+		return check
+	}
+
 	return nil
 }
 
@@ -88,6 +95,8 @@ var runAsRootCheck certification.Check = &containerpol.RunAsNonRootCheck{}
 var basedOnUbiCheck certification.Check = &containerpol.BasedOnUBICheck{}
 var runnableContainerCheck certification.Check = containerpol.NewRunnableContainerCheck(internal.NewPodmanEngine())
 var runSystemContainerCheck certification.Check = containerpol.NewRunSystemContainerCheck(internal.NewPodmanEngine())
+var hasRequiredRedHatLabelsCheck certification.Check = &containerpol.HasRequiredRedHatLabelsCheck{}
+var hasNoDeprecatedRedHatLabels certification.Check = &containerpol.HasNoDeprecatedRedHatLabels{}
 
 var operatorPolicy = map[string]certification.Check{
 	//operatorPkgNameIsUniqueCheck.Name(): operatorPkgNameIsUniqueCheck,
@@ -107,6 +116,13 @@ var containerPolicy = map[string]certification.Check{
 	basedOnUbiCheck.Name():         basedOnUbiCheck,
 	runnableContainerCheck.Name():  runnableContainerCheck,
 	runSystemContainerCheck.Name(): runSystemContainerCheck,
+}
+
+var redHatContainerPolicy = map[string]certification.Check{
+	hasUniqueTagCheck.Name():       hasUniqueTagCheck,
+	maxLayersCheck.Name():          maxLayersCheck,
+	hasNoDeprecatedRedHatLabels.Name():    hasNoDeprecatedRedHatLabels,
+	hasRequiredRedHatLabelsCheck.Name():  hasRequiredRedHatLabelsCheck,
 }
 
 var scratchContainerPolicy = map[string]certification.Check{
@@ -135,6 +151,10 @@ func OperatorPolicy() []string {
 
 func ContainerPolicy() []string {
 	return makeCheckList(containerPolicy)
+}
+
+func RedHatContainerPolicy() []string {
+	return makeCheckList(redHatContainerPolicy)
 }
 
 func ScratchContainerPolicy() []string {
