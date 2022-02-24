@@ -97,6 +97,7 @@ var runnableContainerCheck certification.Check = containerpol.NewRunnableContain
 var runSystemContainerCheck certification.Check = containerpol.NewRunSystemContainerCheck(internal.NewPodmanEngine())
 var hasRequiredRedHatLabelsCheck certification.Check = &containerpol.HasRequiredRedHatLabelsCheck{}
 var hasNoDeprecatedRedHatLabels certification.Check = &containerpol.HasNoDeprecatedRedHatLabels{}
+var isNotDeprecatedImageCheck certification.Check = &containerpol.IsNotDeprecatedImageCheck{}
 
 var operatorPolicy = map[string]certification.Check{
 	//operatorPkgNameIsUniqueCheck.Name(): operatorPkgNameIsUniqueCheck,
@@ -119,10 +120,12 @@ var containerPolicy = map[string]certification.Check{
 }
 
 var redHatContainerPolicy = map[string]certification.Check{
-	hasUniqueTagCheck.Name():       hasUniqueTagCheck,
-	maxLayersCheck.Name():          maxLayersCheck,
-	hasNoDeprecatedRedHatLabels.Name():    hasNoDeprecatedRedHatLabels,
-	hasRequiredRedHatLabelsCheck.Name():  hasRequiredRedHatLabelsCheck,
+	hasUniqueTagCheck.Name():            hasUniqueTagCheck,
+	maxLayersCheck.Name():               maxLayersCheck,
+	hasRequiredLabelsCheck.Name():       hasRequiredLabelsCheck,
+	hasRequiredRedHatLabelsCheck.Name(): hasRequiredRedHatLabelsCheck,
+	hasNoDeprecatedRedHatLabels.Name():  hasNoDeprecatedRedHatLabels,
+	isNotDeprecatedImageCheck.Name():    isNotDeprecatedImageCheck,
 }
 
 var scratchContainerPolicy = map[string]certification.Check{

@@ -112,11 +112,17 @@ func init() {
 	checkRedHatContainerCmd.Flags().StringP("docker-config", "d", "", "path to docker config.json file")
 	viper.BindPFlag("docker_config", checkRedHatContainerCmd.Flags().Lookup("docker-config"))
 
-	checkRedHatContainerCmd.Flags().String("pyxis-api-token", "", "API token for Pyxis authentication")
-	viper.BindPFlag("pyxis_api_token", checkRedHatContainerCmd.Flags().Lookup("pyxis-api-token"))
+	checkRedHatContainerCmd.Flags().String("pyxis-cert", "", "Certificate for Pyxis authentication")
+	checkContainerCmd.MarkFlagRequired("pyxis-cert")
+	viper.BindPFlag("pyxis_cert", checkRedHatContainerCmd.Flags().Lookup("pyxis-cert"))
 
-	checkRedHatContainerCmd.Flags().String("pyxis-host", DefaultPyxisHost, "Host to use for Pyxis submissions.")
-	viper.BindPFlag("pyxis_host", checkRedHatContainerCmd.Flags().Lookup("pyxis-host"))
+	checkRedHatContainerCmd.Flags().String("pyxis-cert-key", "", "Certificate key for Pyxis authentication.")
+	checkContainerCmd.MarkFlagRequired("pyxis-cert-key")
+	viper.BindPFlag("pyxis_cert_key", checkRedHatContainerCmd.Flags().Lookup("pyxis-cert-key"))
+
+	checkRedHatContainerCmd.Flags().String("pyxis-host", "", "Pyxis host url")
+    checkContainerCmd.MarkFlagRequired("pyxis-host")
+    viper.BindPFlag("pyxis_host", checkRedHatContainerCmd.Flags().Lookup("pyxis-host"))
 
 	checkCmd.AddCommand(checkRedHatContainerCmd)
 }

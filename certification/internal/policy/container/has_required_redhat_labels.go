@@ -6,8 +6,8 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-var requiredRedHatLabels = []string{"com.redhat.component", "vendor", "name", "version", "release", "description",
-"io.k8s.description", "vcs-ref", "vcs-type", "architecture", "com.redhat.build-host", "url", "build-date", "distribution-scope"}
+var requiredRedHatLabels = []string{"com.redhat.component", "io.k8s.description", "vcs-ref", "vcs-type", "architecture",
+    "com.redhat.build-host", "url", "build-date", "distribution-scope"}
 
 // HasRequiredRedHatLabelsCheck evaluates the image manifest to ensure that the appropriate metadata
 // labels are present on the image asset as it exists in its current container registry.
@@ -48,7 +48,7 @@ func (p *HasRequiredRedHatLabelsCheck) Name() string {
 
 func (p *HasRequiredRedHatLabelsCheck) Metadata() certification.Metadata {
 	return certification.Metadata{
-		Description:      "Checking if the required labels (com.redhat.component, vendor, name, version, release, description, io.k8s.description, vcs-ref, vcs-type, architecture, com.redhat.build-host, url, build-date, distribution-scope) are present in the container metadata.",
+		Description:      "Checking if the required labels (com.redhat.component, io.k8s.description, vcs-ref, vcs-type, architecture, com.redhat.build-host, url, build-date, distribution-scope) are present in the container metadata.",
 		Level:            "good",
 		KnowledgeBaseURL: "https://connect.redhat.com/zones/containers/container-certification-policy-guide",
 		CheckURL:         "https://connect.redhat.com/zones/containers/container-certification-policy-guide",
@@ -58,6 +58,6 @@ func (p *HasRequiredRedHatLabelsCheck) Metadata() certification.Metadata {
 func (p *HasRequiredRedHatLabelsCheck) Help() certification.HelpText {
 	return certification.HelpText{
 		Message:    "Check Check HasRequiredRedHatLabelsCheck encountered an error. Please review the preflight.log file for more information.",
-		Suggestion: "Add the following labels to your Dockerfile or Containerfile: com.redhat.component, vendor, name, version, release, description, io.k8s.description, vcs-ref, vcs-type, architecture, com.redhat.build-host, url, build-date, distribution-scope",
+		Suggestion: "Add the following labels to your Dockerfile or Containerfile: com.redhat.component, io.k8s.description, vcs-ref, vcs-type, architecture, com.redhat.build-host, url, build-date, distribution-scope",
 	}
 }
